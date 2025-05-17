@@ -3,6 +3,7 @@ import Navbar from "./components/shared/Navbar";
 import DeletedItemManagement from "./components/DeletedItemManagement";
 import ItemManagement from "./components/ItemManagement";
 import InventoryManagement from "./components/InventoryManagement";
+import TransactionManagement from "./components/TransactionManagement";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<ItemManagement />} />
           <Route path="/deleted-items" element={<DeletedItemManagement />} />
           <Route path="/inventory" element={<InventoryManagement />} />
+          <Route path="/transaction" element={<TransactionManagement />} />
         </Routes>
       </main>
     </div>

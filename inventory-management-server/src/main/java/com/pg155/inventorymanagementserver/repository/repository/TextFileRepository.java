@@ -61,7 +61,7 @@ public abstract class TextFileRepository<T extends BaseModel> {
             throw new RuntimeException("Failed to read entities", e);
         }
     }
-    
+
     /**
      * Adds a new entity to the file, assigning it a unique UUID as its ID.
      *
@@ -81,6 +81,34 @@ public abstract class TextFileRepository<T extends BaseModel> {
         }
 
         return entity;
+    }
+
+    /**
+     * Updates an existing entity identified by its ID.
+     *
+     * @param id the ID of the entity to update
+     * @param updated the updated entity object
+     * @return the updated entity if found, otherwise null
+     */
+    public T updateById(String id, T updated) {
+        List<T> list = getAll();
+        boolean replaced = false;
+
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getId().equals(id)) {
+                updated.setId(id); // preserve ID
+                list.set(i, updated);
+                replaced = true;
+                break;
+            }
+        }
+
+        if (replaced) {
+            writeAll(list);
+            return updated;
+        }
+
+        return null;
     }
 
     /**
