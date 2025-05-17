@@ -61,5 +61,26 @@ public abstract class TextFileRepository<T extends BaseModel> {
             throw new RuntimeException("Failed to read entities", e);
         }
     }
+    
+    /**
+     * Adds a new entity to the file, assigning it a unique UUID as its ID.
+     *
+     * @param entity the entity to add
+     * @return the added entity with an assigned ID
+     */
+    public T add(T entity) {
+        if(entity.getId() == null) {
+            entity.setId(UUID.randomUUID().toString());
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            writer.write(toLine(entity));
+            writer.newLine();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to write entity", e);
+        }
+
+        return entity;
+    }
 }
 
