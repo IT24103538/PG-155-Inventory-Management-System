@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/shared/Navbar";
 import DeletedItemManagement from "./components/DeletedItemManagement";
 import ItemManagement from "./components/ItemManagement";
+import InventoryManagement from "./components/InventoryManagement";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<ItemManagement />} />
           <Route path="/deleted-items" element={<DeletedItemManagement />} />
+          <Route path="/inventory" element={<InventoryManagement />} />
         </Routes>
       </main>
     </div>

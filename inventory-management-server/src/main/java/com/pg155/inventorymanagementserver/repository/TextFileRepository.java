@@ -82,5 +82,39 @@ public abstract class TextFileRepository<T extends BaseModel> {
 
         return entity;
     }
+
+    /**
+     * Removes an entity by its ID.
+     *
+     * @param id the ID of the entity to remove
+     * @return true if the entity was found and removed, false otherwise
+     */
+    public boolean removeById(String id) {
+        List<T> list = getAll();
+        boolean deleted = list.removeIf(e -> e.getId().equals(id));
+
+        if (deleted) {
+            writeAll(list);
+        }
+
+        return deleted;
+    }
+
+    /**
+     * Writes the entire list of entities back to the file,
+     * replacing all existing content.
+     *
+     * @param entities the list of entities to write
+     */
+    private void writeAll(List<T> entities) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            for (T entity : entities) {
+                writer.write(toLine(entity));
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to overwrite file", e);
+        }
+    }
 }
 
