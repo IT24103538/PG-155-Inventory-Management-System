@@ -30,6 +30,44 @@ public class MergeSort {
         List<Item> right = sort(new ArrayList<>(items.subList(mid, items.size()))); // Recursive sort on the right half
 
         // Merge the sorted halves and return the result
-        return Collections.emptyList();
+        return merge(left, right);
+    }
+
+    /**
+     * Merges two sorted lists into one, sorted by expiryDate.
+     *
+     * @param left  The first sorted sublist.
+     * @param right The second sorted sublist.
+     * @return A merged and sorted list.
+     */
+    private static List<Item> merge(List<Item> left, List<Item> right) {
+        List<Item> result = new ArrayList<>();
+        int i = 0, j = 0;
+
+        // While there are elements in both lists, compare and pick the earlier expiryDate
+        while (i < left.size() && j < right.size()) {
+            LocalDate leftDate = left.get(i).getExpiryDate();
+            LocalDate rightDate = right.get(j).getExpiryDate();
+
+            // Add the item with the earlier (or equal) expiryDate
+            if (leftDate.isBefore(rightDate) || leftDate.isEqual(rightDate)) {
+                result.add(left.get(i++));
+            } else {
+                result.add(right.get(j++));
+            }
+        }
+
+        // Add remaining elements from the left list, if any
+        while (i < left.size()) {
+            result.add(left.get(i++));
+        }
+
+        // Add remaining elements from the right list, if any
+        while (j < right.size()) {
+            result.add(right.get(j++));
+        }
+
+        // The result list is now sorted by expiryDate
+        return result;
     }
 }
